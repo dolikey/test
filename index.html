@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>续保流程</title>
+  <title>云撸猫</title>
   <style>
     body,
     html {
@@ -33,11 +33,11 @@
       text-align: center;
     }
 
-    #credits a {
+    #credits span {
       color: #328685;
     }
 
-    #credits a:hover {
+    #credits span:hover {
       color: #630d15;
     }
 
@@ -55,7 +55,7 @@
       top: 50vh;
       left: 50%;
       z-index: 1;
-      transform: translateX(-50%) translateY(-30vh);
+      transform: translateX(-50%) translateY(-39vh);
       opacity: 0;
     }
 
@@ -91,22 +91,40 @@
 <body>
   <p class="dialogue" id="dialogue"></p>
   <div id="world" />
+
+  <span id="credits">把毛线送到噬元兽的旁边，也许会有惊喜哟～</span>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r70/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.16.1/TweenMax.min.js"></script>
   <script src="./cat.js"></script>
   <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/264161/OrbitControls.js"></script>
   <script>
     //THREEJS RELATED VARIABLES
-    const dics = [
-      '123',
-      '456',
-      '567'
+    document.addEventListener('touchstart', function(event) {
+      if (event.touches.length == 1) {
+        event.preventDefault();
+      }
+    }, { passive: false })
+
+    var dics = [
+      '我们的AI用户画像能帮助您更加了解您的客户哟～',
+      '我们会根据大数据给您匹配更加精确的产品～',
+      '我们的会给您提供详细的产品说明～',
+      '今年的续保率超60%',
+      '我们有超过30个续保入口哦～',
+      '我们是个非团队哦~'
     ]
-    window.attackNum = 0
+    var cache = JSON.parse(JSON.stringify(dics))
+    var min = 4
+    var rand = 6
+
+    window.attackNum = 2
     window.attackCallback = function () {
       window.attackNum++
-      if (window.attackNum > 5 && window.attackNum === (Math.floor(20 * Math.random()) + 10) || window.attackNum > 25) {
-        var word = dics[Math.floor(dics.length * Math.random())]
+      if (window.attackNum > min && window.attackNum === (Math.floor(rand * Math.random()) + min) || window.attackNum > (rand + min)) {
+        var index = Math.floor(cache.length * Math.random())
+        var word = cache.splice(index, 1)
+
+        if (!cache.length) cache = JSON.parse(JSON.stringify(dics))
         window.attackNum = 0
         document.getElementById('dialogue').innerText = word
         document.getElementById('dialogue').style = 'opacity: 1;'
@@ -175,8 +193,8 @@
       container.appendChild(renderer.domElement);
 
       window.addEventListener('resize', handleWindowResize, false);
-      document.addEventListener('mousemove', handleMouseMove, false);
-      document.addEventListener('touchmove', handleTouchMove, false);
+      document.addEventListener('mousemove', handleMouseMove, { passive: false });
+      document.addEventListener('touchmove', handleTouchMove, { passive: false });
 
       /*
       controls = new THREE.OrbitControls(camera, renderer.domElement);
