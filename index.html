@@ -103,6 +103,7 @@
     left: 0;
     height: 101%;
     width: 100%;
+    overflow-y: auto;
     }
     .messages .message {
     clear: both;
@@ -110,7 +111,7 @@
     padding: 6px 10px 7px;
     border-radius: 10px 10px 10px 0;
     background: rgba(0, 0, 0, 0.3);
-    margin: 16px 0;
+    margin: 10px 0;
     font-size: 11px;
     line-height: 1.4;
     margin-left: 60px;
@@ -480,13 +481,10 @@
             updateScrollbar();
 
             if (msg) {
-                setTimeout(function() {
-                    $('.message.loading').remove();
-                    $('<div class="message new"><figure class="avatar"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/156381/profile/profile-80.jpg" /></figure>' + msg + '</div>').appendTo($('.mCSB_container')).addClass('new');
-                    setDate();
-                    updateScrollbar();
-                    i++;
-                }, 1000 + (Math.random() * 20) * 100);
+                $('.message.loading').remove();
+                $('<div class="message new"><figure class="avatar"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/156381/profile/profile-80.jpg" /></figure>' + msg + '</div>').appendTo($('.mCSB_container')).addClass('new');
+                setDate();
+                updateScrollbar();
             } else {
                 $.ajax({
                     url: "http://43.139.182.19:80/dialog",
@@ -501,13 +499,14 @@
                     }),
                     success: function(data) {
                         if (data.result && data.result.length > 0) {
-                            setTimeout(function() {
-                                console.log(data.result[0].answer);
-                                $('.message.loading').remove();
-                                $('<div class="message new"><figure class="avatar"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/156381/profile/profile-80.jpg" /></figure>' + data.result[0].answer + '</div>').appendTo($('.mCSB_container')).addClass('new');
-                                setDate();
-                                updateScrollbar();
-                            }, 1000 + (Math.random() * 20) * 100);
+                            console.log(data.result[0].answer);
+                            $('.message.loading').remove();
+                            $('<div class="message new"><figure class="avatar"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/156381/profile/profile-80.jpg" /></figure>' + data.result[0].answer + '</div>').appendTo($('.mCSB_container')).addClass('new');
+                            setDate();
+                            updateScrollbar();
+                            setTimeout(() => {
+                                $('.messages .message').last()[0].scrollIntoView();
+                            }, 100)
                         }
                     }
                 });
