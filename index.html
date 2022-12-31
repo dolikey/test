@@ -1,6 +1,7 @@
 <html>
   <head>
     <title>保险客服</title>
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
     <style>
     *,
     *::before,
@@ -115,7 +116,7 @@
     margin-left: 60px;
     position: relative;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-    font-size: 24px;
+    font-size: 16px;
     }
     .messages .message .timestamp {
     position: absolute;
@@ -244,6 +245,8 @@
     background: rgba(0, 0, 0, 0.3);
     padding: 10px;
     position: relative;
+    padding-bottom: constant(safe-area-inset-bottom);
+    padding-bottom: env(safe-area-inset-bottom);
     }
     .message-box .message-input {
     background: none;
