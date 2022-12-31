@@ -1,589 +1,517 @@
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>云撸猫</title>
-  <style>
-    body,
-    html {
-      padding: 0;
-      margin: 0;
+<html>
+  <head>
+    <title>保险客服</title>
+    <style>
+    *,
+    *::before,
+    *::after {
+    box-sizing: border-box;
     }
 
-    #world {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background-color: #6ecccc;
-      overflow: hidden;
+    html,
+    body {
+    height: 100%;
+    margin: 0;
     }
 
-    #credits {
-      position: absolute;
-      width: 100%;
-      margin: auto;
-      bottom: 0;
-      margin-bottom: 20px;
-      font-family: 'Open Sans', sans-serif;
-      color: #328685;
-      font-size: 15px;
-      text-transform: uppercase;
-      text-align: center;
+    body {
+    background: linear-gradient(135deg, #044f48, #2a7561);
+    background-size: cover;
+    font-family: "Open Sans", sans-serif;
+    font-size: 36px;
+    line-height: 1.3;
+    overflow: hidden;
     }
 
-    #credits span {
-      color: #328685;
+    /*--------------------
+    Chat
+    --------------------*/
+    .chat {
+    /* position: relative; */
+    /* top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); */
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    overflow: hidden;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.5);
+    /* border-radius: 20px; */
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
     }
 
-    #credits span:hover {
-      color: #630d15;
+    /*--------------------
+    Chat Title
+    --------------------*/
+    .chat-title {
+    flex: 0 1 45px;
+    position: relative;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.2);
+    color: #fff;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 10px 10px 10px 50px;
+    display: none;
+    }
+    .chat-title h1, .chat-title h2 {
+    font-weight: normal;
+    font-size: 10px;
+    margin: 0;
+    padding: 0;
+    }
+    .chat-title h2 {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 8px;
+    letter-spacing: 1px;
+    }
+    .chat-title .avatar {
+    position: absolute;
+    z-index: 1;
+    top: 8px;
+    left: 9px;
+    border-radius: 30px;
+    width: 30px;
+    height: 30px;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    border: 2px solid rgba(255, 255, 255, 0.24);
+    }
+    .chat-title .avatar img {
+    width: 100%;
+    height: auto;
     }
 
-    .dialogue {
-      background-color: white;
-      border: 2px solid #000;
-      border-radius: 50px;
-      display: inline-block;
-      font-family: "Comic Sans MS", sans-serif;
-      padding: 16px;
-      position: absolute;
-      text-align: center;
-      text-transform: uppercase;
-      width: 52vw;
-      top: 50vh;
-      left: 50%;
-      z-index: 1;
-      transform: translateX(-50%) translateY(-42vh);
-      opacity: 0;
+    /*--------------------
+    Messages
+    --------------------*/
+    .messages {
+    flex: 1 1 auto;
+    color: rgba(255, 255, 255, 0.5);
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    }
+    .messages .messages-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 101%;
+    width: 100%;
+    }
+    .messages .message {
+    clear: both;
+    float: left;
+    padding: 6px 10px 7px;
+    border-radius: 10px 10px 10px 0;
+    background: rgba(0, 0, 0, 0.3);
+    margin: 16px 0;
+    font-size: 11px;
+    line-height: 1.4;
+    margin-left: 60px;
+    position: relative;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    font-size: 24px;
+    }
+    .messages .message .timestamp {
+    position: absolute;
+    bottom: -15px;
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.3);
+    }
+    .messages .message::before {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    border-top: 6px solid rgba(0, 0, 0, 0.3);
+    left: 0;
+    border-right: 7px solid transparent;
+    }
+    .messages .message .avatar {
+    position: absolute;
+    z-index: 1;
+    bottom: -15px;
+    left: -56px;
+    border-radius: 50px;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    border: 2px solid rgba(255, 255, 255, 0.24);
+    }
+    .messages .message .avatar img {
+    width: 100%;
+    height: auto;
+    }
+    .messages .message.message-personal {
+    float: right;
+    color: #fff;
+    text-align: right;
+    background: linear-gradient(120deg, #248A52, #257287);
+    border-radius: 10px 10px 0 10px;
+    }
+    .messages .message.message-personal::before {
+    left: auto;
+    right: 0;
+    border-right: none;
+    border-left: 5px solid transparent;
+    border-top: 4px solid #257287;
+    bottom: -4px;
+    }
+    .messages .message:last-child {
+    margin-bottom: 30px;
+    }
+    .messages .message.new {
+    transform: scale(0);
+    transform-origin: 0 0;
+    -webkit-animation: bounce 500ms linear both;
+            animation: bounce 500ms linear both;
+    }
+    .messages .message.loading::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    content: "";
+    display: block;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    z-index: 2;
+    margin-top: 4px;
+    -webkit-animation: ball 0.45s cubic-bezier(0, 0, 0.15, 1) alternate infinite;
+            animation: ball 0.45s cubic-bezier(0, 0, 0.15, 1) alternate infinite;
+    border: none;
+    -webkit-animation-delay: 0.15s;
+            animation-delay: 0.15s;
+    }
+    .messages .message.loading span {
+    display: block;
+    font-size: 0;
+    width: 20px;
+    height: 10px;
+    position: relative;
+    }
+    .messages .message.loading span::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    content: "";
+    display: block;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    z-index: 2;
+    margin-top: 4px;
+    -webkit-animation: ball 0.45s cubic-bezier(0, 0, 0.15, 1) alternate infinite;
+            animation: ball 0.45s cubic-bezier(0, 0, 0.15, 1) alternate infinite;
+    margin-left: -7px;
+    }
+    .messages .message.loading span::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    content: "";
+    display: block;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    z-index: 2;
+    margin-top: 4px;
+    -webkit-animation: ball 0.45s cubic-bezier(0, 0, 0.15, 1) alternate infinite;
+            animation: ball 0.45s cubic-bezier(0, 0, 0.15, 1) alternate infinite;
+    margin-left: 7px;
+    -webkit-animation-delay: 0.3s;
+            animation-delay: 0.3s;
     }
 
-    .dialogue::before {
-      display: block;
-      content: "";
-      border-left: 12px solid transparent;
-      border-right: 12px solid transparent;
-      border-top: 22px solid black;
-      height: 0;
-      position: absolute;
-      right: 48px;
-      top: 100%;
-      width: 0;
+    /*--------------------
+    Message Box
+    --------------------*/
+    .message-box {
+    flex: 0 1 40px;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    position: relative;
+    }
+    .message-box .message-input {
+    background: none;
+    border: none;
+    outline: none !important;
+    resize: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 17px;
+    height: 35px;
+    margin: 0;
+    padding-right: 20px;
+    width: 100%;
+    }
+    .message-box textarea:focus:-webkit-placeholder {
+    color: transparent;
+    }
+    .message-box .message-submit {
+    position: absolute;
+    z-index: 1;
+    top: 9px;
+    right: 10px;
+    color: #fff;
+    border: none;
+    background: #248A52;
+    font-size: 17px;
+    text-transform: uppercase;
+    line-height: 1;
+    padding: 6px 10px;
+    border-radius: 10px;
+    outline: none !important;
+    transition: background 0.2s ease;
+    }
+    .message-box .message-submit:hover {
+    background: #1D7745;
     }
 
-    .dialogue::after {
-      display: block;
-      content: "";
-      border-left: 10px solid transparent;
-      border-right: 10px solid transparent;
-      border-top: 20px solid white;
-      height: 0;
-      position: absolute;
-      right: 50px;
-      top: 99%;
-      width: 0;
+    /*--------------------
+    Custom Srollbar
+    --------------------*/
+    .mCSB_scrollTools {
+    margin: 1px -3px 1px 0;
+    opacity: 0;
     }
 
-  </style>
-</head>
-
-<body>
-  <p class="dialogue" id="dialogue"></p>
-  <div id="world" />
-
-  <span id="credits">把毛线送到噬元兽的旁边，也许会有惊喜哟～</span>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r70/three.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.16.1/TweenMax.min.js"></script>
-  <script src="./cat.js"></script>
-  <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/264161/OrbitControls.js"></script>
-  <script>
-    //THREEJS RELATED VARIABLES
-    document.addEventListener('touchstart', function(event) {
-      if (event.touches.length == 1) {
-        event.preventDefault();
-      }
-    }, { passive: false })
-
-    var dics = [
-      '选我！选我！选我！',
-      '我们是【好生活个非战队】',
-      '你一票，我一票，续保保费加油造～',
-      '你也投，我也投，续保保费很上头～'
-    ]
-    var cache = JSON.parse(JSON.stringify(dics))
-    var min = 4
-    var rand = 6
-
-    window.attackNum = 2
-    window.attackCallback = function () {
-      window.attackNum++
-      if (window.attackNum > min && window.attackNum === (Math.floor(rand * Math.random()) + min) || window.attackNum > (rand + min)) {
-        var index = Math.floor(cache.length * Math.random())
-        var word = cache.splice(index, 1)
-
-        if (!cache.length) cache = JSON.parse(JSON.stringify(dics))
-        window.attackNum = 0
-        document.getElementById('dialogue').innerText = word
-        document.getElementById('dialogue').style = 'opacity: 1;'
-      }
+    .mCSB_inside > .mCSB_container {
+    margin-right: 0px;
+    padding: 0 10px;
     }
 
-    var scene,
-      camera, fieldOfView, aspectRatio, nearPlane, farPlane,
-      gobalLight, shadowLight, backLight,
-      renderer,
-      container,
-      controls;
-
-    //SCREEN & MOUSE VARIABLES
-
-    var HEIGHT, WIDTH, windowHalfX, windowHalfY,
-      mousePos = {
-        x: 0,
-        y: 0
-      },
-      oldMousePos = {
-        x: 0,
-        y: 0
-      },
-      ballWallDepth = 28;
-
-
-    //3D OBJECTS VARIABLES
-
-    var hero;
-
-    //INIT THREE JS, SCREEN AND MOUSE EVENTS
-
-    function initScreenAnd3D() {
-
-      HEIGHT = window.innerHeight;
-      WIDTH = window.innerWidth;
-      windowHalfX = WIDTH / 2;
-      windowHalfY = HEIGHT / 2;
-
-      scene = new THREE.Scene();
-      aspectRatio = WIDTH / HEIGHT;
-      fieldOfView = 50;
-      nearPlane = 1;
-      farPlane = 2000;
-      camera = new THREE.PerspectiveCamera(
-        fieldOfView,
-        aspectRatio,
-        nearPlane,
-        farPlane
-      );
-      camera.position.x = 0;
-      camera.position.z = 300;
-      camera.position.y = 250;
-      camera.lookAt(new THREE.Vector3(0, 60, 0));
-
-      renderer = new THREE.WebGLRenderer({
-        alpha: true,
-        antialias: true
-      });
-      renderer.setPixelRatio(window.devicePixelRatio);
-      renderer.setSize(WIDTH, HEIGHT);
-      renderer.shadowMapEnabled = true;
-
-      container = document.getElementById('world');
-      container.appendChild(renderer.domElement);
-
-      window.addEventListener('resize', handleWindowResize, false);
-      document.addEventListener('mousemove', handleMouseMove, { passive: false });
-      document.addEventListener('touchmove', handleTouchMove, { passive: false });
-
-      /*
-      controls = new THREE.OrbitControls(camera, renderer.domElement);
-      controls.minPolarAngle = -Math.PI / 2;
-      controls.maxPolarAngle = Math.PI / 2;
-      controls.noZoom = true;
-      controls.noPan = true;
-      //*/
-
-
+    .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
+    background-color: rgba(0, 0, 0, 0.5) !important;
     }
 
-    function handleWindowResize() {
-      HEIGHT = window.innerHeight;
-      WIDTH = window.innerWidth;
-      windowHalfX = WIDTH / 2;
-      windowHalfY = HEIGHT / 2;
-      renderer.setSize(WIDTH, HEIGHT);
-      camera.aspect = WIDTH / HEIGHT;
-      camera.updateProjectionMatrix();
+    /*--------------------
+    Bounce
+    --------------------*/
+    @-webkit-keyframes bounce {
+    0% {
+        transform: matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
     }
-
-    function handleMouseMove(event) {
-      mousePos = {
-        x: event.clientX,
-        y: event.clientY
-      };
+    4.7% {
+        transform: matrix3d(0.45, 0, 0, 0, 0, 0.45, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
     }
-
-    function handleTouchMove(event) {
-      if (event.touches.length == 1) {
-        event.preventDefault();
-        mousePos = {
-          x: event.touches[0].pageX,
-          y: event.touches[0].pageY
-        };
-      }
+    9.41% {
+        transform: matrix3d(0.883, 0, 0, 0, 0, 0.883, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
     }
-
-    function createLights() {
-      globalLight = new THREE.HemisphereLight(0xffffff, 0xffffff, .5)
-
-      shadowLight = new THREE.DirectionalLight(0xffffff, .9);
-      shadowLight.position.set(200, 200, 200);
-      shadowLight.castShadow = true;
-      shadowLight.shadowDarkness = .2;
-      shadowLight.shadowMapWidth = shadowLight.shadowMapHeight = 2048;
-
-      backLight = new THREE.DirectionalLight(0xffffff, .4);
-      backLight.position.set(-100, 100, 100);
-      backLight.castShadow = true;
-      backLight.shadowDarkness = .1;
-      backLight.shadowMapWidth = shadowLight.shadowMapHeight = 2048;
-
-      scene.add(globalLight);
-      scene.add(shadowLight);
-      scene.add(backLight);
+    14.11% {
+        transform: matrix3d(1.141, 0, 0, 0, 0, 1.141, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
     }
-
-    function createFloor() {
-      floor = new THREE.Mesh(new THREE.PlaneBufferGeometry(1000, 1000), new THREE.MeshBasicMaterial({
-        color: 0x6ecccc
-      }));
-      floor.rotation.x = -Math.PI / 2;
-      floor.position.y = 0;
-      floor.receiveShadow = true;
-      scene.add(floor);
+    18.72% {
+        transform: matrix3d(1.212, 0, 0, 0, 0, 1.212, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
     }
-
-    function createHero() {
-      hero = new Cat();
-      scene.add(hero.threeGroup);
+    24.32% {
+        transform: matrix3d(1.151, 0, 0, 0, 0, 1.151, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
     }
-
-    function createBall() {
-      ball = new Ball();
-      scene.add(ball.threeGroup);
+    29.93% {
+        transform: matrix3d(1.048, 0, 0, 0, 0, 1.048, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
     }
+    35.54% {
+        transform: matrix3d(0.979, 0, 0, 0, 0, 0.979, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    41.04% {
+        transform: matrix3d(0.961, 0, 0, 0, 0, 0.961, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    52.15% {
+        transform: matrix3d(0.991, 0, 0, 0, 0, 0.991, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    63.26% {
+        transform: matrix3d(1.007, 0, 0, 0, 0, 1.007, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    85.49% {
+        transform: matrix3d(0.999, 0, 0, 0, 0, 0.999, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    100% {
+        transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    }
+    @keyframes bounce {
+    0% {
+        transform: matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    4.7% {
+        transform: matrix3d(0.45, 0, 0, 0, 0, 0.45, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    9.41% {
+        transform: matrix3d(0.883, 0, 0, 0, 0, 0.883, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    14.11% {
+        transform: matrix3d(1.141, 0, 0, 0, 0, 1.141, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    18.72% {
+        transform: matrix3d(1.212, 0, 0, 0, 0, 1.212, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    24.32% {
+        transform: matrix3d(1.151, 0, 0, 0, 0, 1.151, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    29.93% {
+        transform: matrix3d(1.048, 0, 0, 0, 0, 1.048, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    35.54% {
+        transform: matrix3d(0.979, 0, 0, 0, 0, 0.979, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    41.04% {
+        transform: matrix3d(0.961, 0, 0, 0, 0, 0.961, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    52.15% {
+        transform: matrix3d(0.991, 0, 0, 0, 0, 0.991, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    63.26% {
+        transform: matrix3d(1.007, 0, 0, 0, 0, 1.007, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    85.49% {
+        transform: matrix3d(0.999, 0, 0, 0, 0, 0.999, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    100% {
+        transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    }
+    @-webkit-keyframes ball {
+    from {
+        transform: translateY(0) scaleY(0.8);
+    }
+    to {
+        transform: translateY(-10px);
+    }
+    }
+    @keyframes ball {
+    from {
+        transform: translateY(0) scaleY(0.8);
+    }
+    to {
+        transform: translateY(-10px);
+    }
+    }
+    </style>
+  </head>
+  <body>
+    <div class="chat">
+        <div class="chat-title">
+            <h1>Fabio Ottaviani</h1>
+            <h2>Supah</h2>
+            <figure class="avatar">
+                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/156381/profile/profile-80.jpg" /></figure>
+            </div>
+            <div class="messages">
+            <div class="messages-content"></div>
+            </div>
+            <div class="message-box">
+            <textarea type="text" class="message-input" placeholder="Type message..."></textarea>
+            <button type="submit" class="message-submit">发送</button>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script>
+        var $messages = $('.messages-content'),
+        d, h, m,
+        i = 0;
+        var current = ''
 
-    // BALL RELATED CODE
+        $(window).load(function() {
+            $messages.mCustomScrollbar();
+            setTimeout(function() {
+                fakeMessage('你好很高兴为您服务～');
+            }, 100);
+        });
 
-
-    var woolNodes = 10,
-      woolSegLength = 2,
-      gravity = -.8,
-      accuracy = 1;
-
-
-    Ball = function () {
-
-      var redMat = new THREE.MeshLambertMaterial({
-        color: 0x630d15,
-        shading: THREE.FlatShading
-      });
-
-      var stringMat = new THREE.LineBasicMaterial({
-        color: 0x630d15,
-        linewidth: 3
-      });
-
-      this.threeGroup = new THREE.Group();
-      this.ballRay = 8;
-
-      this.verts = [];
-
-      // string
-      var stringGeom = new THREE.Geometry();
-
-      for (var i = 0; i < woolNodes; i++) {
-        var v = new THREE.Vector3(0, -i * woolSegLength, 0);
-        stringGeom.vertices.push(v);
-
-        var woolV = new WoolVert();
-        woolV.x = woolV.oldx = v.x;
-        woolV.y = woolV.oldy = v.y;
-        woolV.z = 0;
-        woolV.fx = woolV.fy = 0;
-        woolV.isRootNode = (i == 0);
-        woolV.vertex = v;
-        if (i > 0) woolV.attach(this.verts[(i - 1)]);
-        this.verts.push(woolV);
-
-      }
-      this.string = new THREE.Line(stringGeom, stringMat);
-
-      // body
-      var bodyGeom = new THREE.SphereGeometry(this.ballRay, 5, 4);
-      this.body = new THREE.Mesh(bodyGeom, redMat);
-      this.body.position.y = -woolSegLength * woolNodes;
-
-      var wireGeom = new THREE.TorusGeometry(this.ballRay, .5, 3, 10, Math.PI * 2);
-      this.wire1 = new THREE.Mesh(wireGeom, redMat);
-      this.wire1.position.x = 1;
-      this.wire1.rotation.x = -Math.PI / 4;
-
-      this.wire2 = this.wire1.clone();
-      this.wire2.position.y = 1;
-      this.wire2.position.x = -1;
-      this.wire1.rotation.x = -Math.PI / 4 + .5;
-      this.wire1.rotation.y = -Math.PI / 6;
-
-      this.wire3 = this.wire1.clone();
-      this.wire3.rotation.x = -Math.PI / 2 + .3;
-
-      this.wire4 = this.wire1.clone();
-      this.wire4.position.x = -1;
-      this.wire4.rotation.x = -Math.PI / 2 + .7;
-
-      this.wire5 = this.wire1.clone();
-      this.wire5.position.x = 2;
-      this.wire5.rotation.x = -Math.PI / 2 + 1;
-
-      this.wire6 = this.wire1.clone();
-      this.wire6.position.x = 2;
-      this.wire6.position.z = 1;
-      this.wire6.rotation.x = 1;
-
-      this.wire7 = this.wire1.clone();
-      this.wire7.position.x = 1.5;
-      this.wire7.rotation.x = 1.1;
-
-      this.wire8 = this.wire1.clone();
-      this.wire8.position.x = 1;
-      this.wire8.rotation.x = 1.3;
-
-      this.wire9 = this.wire1.clone();
-      this.wire9.scale.set(1.2, 1.1, 1.1);
-      this.wire9.rotation.z = Math.PI / 2;
-      this.wire9.rotation.y = Math.PI / 2;
-      this.wire9.position.y = 1;
-
-      this.body.add(this.wire1);
-      this.body.add(this.wire2);
-      this.body.add(this.wire3);
-      this.body.add(this.wire4);
-      this.body.add(this.wire5);
-      this.body.add(this.wire6);
-      this.body.add(this.wire7);
-      this.body.add(this.wire8);
-      this.body.add(this.wire9);
-
-      this.threeGroup.add(this.string);
-      this.threeGroup.add(this.body);
-
-      this.threeGroup.traverse(function (object) {
-        if (object instanceof THREE.Mesh) {
-          object.castShadow = true;
-          object.receiveShadow = true;
+        function updateScrollbar() {
+            $messages.mCustomScrollbar("update").mCustomScrollbar('scrollTo', 'bottom', {
+                scrollInertia: 10,
+                timeout: 0
+            });
         }
-      });
 
-    }
-
-    /*
-    The next part of the code is largely inspired by this codepen :
-    https://codepen.io/dissimulate/pen/KrAwx?editors=001
-    thanks to dissimulate for his great work
-    */
-
-    /*
-    Copyright (c) 2013 dissimulate at Codepen
-
-    Permission is hereby granted, free of charge, to any person obtaining a copy
-    of this software and associated documentation files (the "Software"), to deal
-    in the Software without restriction, including without limitation the rights
-    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    copies of the Software, and to permit persons to whom the Software is
-    furnished to do so, subject to the following conditions:
-
-    The above copyright notice and this permission notice shall be included in
-    all copies or substantial portions of the Software.
-
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-    THE SOFTWARE.
-    */
-
-
-
-    WoolVert = function () {
-      this.x = 0;
-      this.y = 0;
-      this.z = 0;
-      this.oldx = 0;
-      this.oldy = 0;
-      this.fx = 0;
-      this.fy = 0;
-      this.isRootNode = false;
-      this.constraints = [];
-      this.vertex = null;
-    }
-
-
-    WoolVert.prototype.update = function () {
-      var wind = 0; //.1+Math.random()*.5;
-      this.add_force(wind, gravity);
-
-      nx = this.x + ((this.x - this.oldx) * .9) + this.fx;
-      ny = this.y + ((this.y - this.oldy) * .9) + this.fy;
-      this.oldx = this.x;
-      this.oldy = this.y;
-      this.x = nx;
-      this.y = ny;
-
-      this.vertex.x = this.x;
-      this.vertex.y = this.y;
-      this.vertex.z = this.z;
-
-      this.fy = this.fx = 0
-    }
-
-    WoolVert.prototype.attach = function (point) {
-      this.constraints.push(new Constraint(this, point));
-    };
-
-    WoolVert.prototype.add_force = function (x, y) {
-      this.fx += x;
-      this.fy += y;
-    };
-
-    Constraint = function (p1, p2) {
-      this.p1 = p1;
-      this.p2 = p2;
-      this.length = woolSegLength;
-    };
-
-    Ball.prototype.update = function (posX, posY, posZ) {
-
-      var i = accuracy;
-
-      while (i--) {
-
-        var nodesCount = woolNodes;
-
-        while (nodesCount--) {
-
-          var v = this.verts[nodesCount];
-
-          if (v.isRootNode) {
-            v.x = posX;
-            v.y = posY;
-            v.z = posZ;
-          } else {
-
-            var constraintsCount = v.constraints.length;
-
-            while (constraintsCount--) {
-
-              var c = v.constraints[constraintsCount];
-
-              var diff_x = c.p1.x - c.p2.x,
-                diff_y = c.p1.y - c.p2.y,
-                dist = Math.sqrt(diff_x * diff_x + diff_y * diff_y),
-                diff = (c.length - dist) / dist;
-
-              var px = diff_x * diff * .5;
-              var py = diff_y * diff * .5;
-
-              c.p1.x += px;
-              c.p1.y += py;
-              c.p2.x -= px;
-              c.p2.y -= py;
-              c.p1.z = c.p2.z = posZ;
+        function setDate(){
+            d = new Date()
+            if (m != d.getMinutes()) {
+                m = d.getMinutes();
+                $('<div class="timestamp">' + d.getHours() + ':' + m + '</div>').appendTo($('.message:last'));
             }
-
-            if (nodesCount == woolNodes - 1) {
-              this.body.position.x = this.verts[nodesCount].x;
-              this.body.position.y = this.verts[nodesCount].y;
-              this.body.position.z = this.verts[nodesCount].z;
-
-              this.body.rotation.z += (v.y <= this.ballRay) ? (v.oldx - v.x) / 10 : Math.min(Math.max(diff_x / 2, -
-                .1), .1);
-            }
-          }
-
-          if (v.y < this.ballRay) {
-            v.y = this.ballRay;
-          }
         }
-      }
 
-      nodesCount = woolNodes;
-      while (nodesCount--) this.verts[nodesCount].update();
+        function insertMessage() {
+            current = $('.message-input').val();
+            if ($.trim(current) == '') {
+                return false;
+            }
+            $('<div class="message message-personal">' + current + '</div>').appendTo($('.mCSB_container')).addClass('new');
+            setDate();
+            $('.message-input').val(null);
+            updateScrollbar();
+            fakeMessage();
+        }
 
-      this.string.geometry.verticesNeedUpdate = true;
+        $('.message-submit').click(function() {
+            insertMessage();
+        });
 
+        $(window).on('keydown', function(e) {
+            if (e.which == 13) {
+                insertMessage();
+                return false;
+            }
+        })
 
-    }
+        function fakeMessage(msg) {
+            if ($('.message-input').val() != '') {
+                return false;
+            }
+            $('<div class="message loading new"><figure class="avatar"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/156381/profile/profile-80.jpg" /></figure><span></span></div>').appendTo($('.mCSB_container'));
+            updateScrollbar();
 
-    Ball.prototype.receivePower = function (tp) {
-      this.verts[woolNodes - 1].add_force(tp.x, tp.y);
-    }
-
-    // Enf of the code inspired by dissmulate
-
-
-    // Make everything work together :
-
-    var t = 0;
-
-    function loop() {
-      render();
-
-      t += .05;
-      hero.updateTail(t);
-
-      var ballPos = getBallPos();
-      ball.update(ballPos.x, ballPos.y, ballPos.z);
-      ball.receivePower(hero.transferPower);
-      hero.interactWithBall(ball.body.position);
-
-      requestAnimationFrame(loop);
-    }
-
-
-    function getBallPos() {
-      var vector = new THREE.Vector3();
-
-      vector.set(
-        (mousePos.x / window.innerWidth) * 2 - 1,
-        -(mousePos.y / window.innerHeight) * 2 + 1,
-        0.1);
-
-      vector.unproject(camera);
-      var dir = vector.sub(camera.position).normalize();
-      var distance = (ballWallDepth - camera.position.z) / dir.z;
-      var pos = camera.position.clone().add(dir.multiplyScalar(distance));
-      return pos;
-    }
-
-    function render() {
-      if (controls) controls.update();
-      renderer.render(scene, camera);
-    }
-
-    window.addEventListener('load', init, false);
-
-    function init(event) {
-      initScreenAnd3D();
-      createLights();
-      createFloor()
-      createHero();
-      createBall();
-      loop();
-    }
-
-  </script>
-</body>
-
+            if (msg) {
+                setTimeout(function() {
+                    $('.message.loading').remove();
+                    $('<div class="message new"><figure class="avatar"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/156381/profile/profile-80.jpg" /></figure>' + msg + '</div>').appendTo($('.mCSB_container')).addClass('new');
+                    setDate();
+                    updateScrollbar();
+                    i++;
+                }, 1000 + (Math.random() * 20) * 100);
+            } else {
+                $.ajax({
+                    url: "http://43.139.182.19:80/dialog",
+                    headers: {
+                        'Content-Type':'application/json'
+                    },
+                    method: 'POST',
+                    dataType: 'json',
+                    data: JSON.stringify({
+                        "req_id": "1",
+                        "content": current
+                    }),
+                    success: function(data) {
+                        if (data.result && data.result.length > 0) {
+                            setTimeout(function() {
+                                console.log(data.result[0].answer);
+                                $('.message.loading').remove();
+                                $('<div class="message new"><figure class="avatar"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/156381/profile/profile-80.jpg" /></figure>' + data.result[0].answer + '</div>').appendTo($('.mCSB_container')).addClass('new');
+                                setDate();
+                                updateScrollbar();
+                            }, 1000 + (Math.random() * 20) * 100);
+                        }
+                    }
+                });
+            }
+            
+            
+        }
+    </script>
+  </body>
 </html>
